@@ -31,3 +31,15 @@ usersテーブル
 |email	    |string
 |created_at	|datetime
 |updated_at	|datetime
+
+Herku デプロイ手順
+１、Heroku CLI のインストール
+2, herokuログイン→horoku create （herokuのアプリ作成）
+3, GemfileにGem追加
+   gem 'net-smtp'
+   gem 'net-imap'
+   gem 'net-pop'　　
+4, Heroku BuildPack追加
+5, PostgreSQLアドオン追加
+6, git push heroku step:master
+7, heroku run rails db:migrate
