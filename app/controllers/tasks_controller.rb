@@ -1,8 +1,23 @@
 class TasksController < ApplicationController
   def index
-    @tasks = Task.all.order(created_at:"DESC")
+    @tasks = Task.page(params[:page]).per(10)
+    @tasks = Task.all.order(created_at: 'ASC')
+  
+    if params[:title].present?
+      @tasks = @tasks.where('title LIKE ?', "%#{params[:title]}%")
+    end
+    if params[:status].present?
+      @tasks = @tasks.where(status: params[:status])
+    end
+    if params[:sort_expired] == 'true'
+      @tasks = @tasks.reorder(deadline: 'ASC')
+    end
+    if params[:sort_priority] == 'true'
+      #binding.pry
+      @tasks = @tasks.reorder(priority: 'ASC')
+    end
   end
-
+  
   def show
     @task = Task.find(params[:id])
   end
@@ -42,7 +57,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :content)
+    params.require(:task).permit(:title, :content, :priority)
   end
 
 end
