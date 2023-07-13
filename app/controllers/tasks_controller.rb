@@ -2,8 +2,8 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.all.order(created_at: 'ASC')
 
-    if params[:sort_expired] == 'true'
-      @tasks = @tasks.order(deadline: 'ASC')
+    if params[:sort_deadline] == 'true'
+      @tasks = @tasks.reorder(deadline: 'ASC')
     end
     if params[:sort_priority] == 'true'
       #binding.pry
