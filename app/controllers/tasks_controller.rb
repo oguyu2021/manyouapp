@@ -3,7 +3,7 @@ class TasksController < ApplicationController
     @tasks = Task.all.order(created_at: 'ASC')
 
     if params[:sort_deadline] == 'true'
-      @tasks = @tasks.reorder(deadline: 'ASC')
+      @tasks = @tasks.reorder(deadline: 'DESC')
     end
     if params[:sort_priority] == 'true'
       #binding.pry
