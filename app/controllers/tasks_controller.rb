@@ -1,23 +1,27 @@
 class TasksController < ApplicationController
   def index
-    @tasks = Task.page(params[:page]).per(10)
     @tasks = Task.all.order(created_at: 'ASC')
-  
-    if params[:title].present?
-      @tasks = @tasks.where('title LIKE ?', "%#{params[:title]}%")
-    end
-    if params[:status].present?
-      @tasks = @tasks.where(status: params[:status])
-    end
+
     if params[:sort_expired] == 'true'
-      @tasks = @tasks.reorder(deadline: 'ASC')
+      @tasks = @tasks.order(deadline: 'ASC')
     end
     if params[:sort_priority] == 'true'
       #binding.pry
       @tasks = @tasks.reorder(priority: 'ASC')
     end
-  end
   
+    if params[:task].present?
+      if params[:task][:title].present? && params[:task][:status].present?
+        @tasks = @tasks.title_search(params[:task][:title]).status_search(params[:task][:status])
+      elsif params[:task][:title].present?
+        @tasks = @tasks.title_search(params[:task][:title])
+      elsif params[:task][:status].present?
+        @tasks = @tasks.status_search(params[:task][:status])
+      end
+    end
+    @tasks = @tasks.page(params[:page]).per(10) 
+  end
+
   def show
     @task = Task.find(params[:id])
   end
@@ -27,11 +31,15 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
-    if @task.save
-      redirect_to tasks_path, notice: "作成しました！"
+    @task = Task.new(task_params) 
+      if params[:back]
+      render :new
     else
-      render 'new'
+      if @task.save
+        redirect_to tasks_path, notice: "作成しました！"
+      else
+        render :new
+      end
     end
   end
 
@@ -42,7 +50,7 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     if @task.update(task_params)
-      redirect_to tasks_path, notice: "更新しました！"
+      redirect_to tasks_path, notice: "編集しました！"
     else
       render 'edit'
     end
@@ -57,7 +65,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :content, :priority)
+    params.require(:task).permit(:title, :content, :deadline, :status, :priority)
   end
-
 end
+

@@ -73,7 +73,7 @@ RSpec.describe 'タスク管理機能', type: :system do
 
         visit tasks_path
         fill_in 'タイトルで絞り込む', with: 'タスク1'
-        select '未着手', from: 'status'
+        select '未着手', from: 'task_status'
         click_button '検索'
 
         expect(page).to have_content 'タスク1'
