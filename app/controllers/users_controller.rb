@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
   before_action :current_login?, only: [:new, :create]
+  
   def new
     @user = User.new
   end
@@ -11,7 +12,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to user_path(@user.id)
     else
-      render :new
+      render new_user_path
     end
   end
 
