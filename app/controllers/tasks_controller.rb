@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   def index
-    @tasks = Task.all.order(created_at: 'ASC')
+    @tasks = current_user.tasks.order(created_at: "DESC")
 
     if params[:sort_deadline] == 'true'
       @tasks = @tasks.reorder(deadline: 'DESC')
