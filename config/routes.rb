@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
   resources :tasks
   root to: 'tasks#index'
   resources :users, only: [:new, :create, :show]
@@ -8,5 +7,5 @@ Rails.application.routes.draw do
   namespace :admin do
    resources :users
   end
-  #post '/admin/users/new', to: 'admin/users#create'
+  
 end
