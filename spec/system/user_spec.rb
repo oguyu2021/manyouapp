@@ -1,71 +1,71 @@
 require 'rails_helper'
 RSpec.describe 'ユーザ管理機能', type: :system do
-  # describe '登録機能' do
-  #   context 'ユーザを登録した場合' do
-  #     it '新規登録ができる' do
-  #       visit new_user_path
-  #       fill_in "user[name]", with: 'テスト'
-  #       fill_in "user[email]", with: 'test100@test.com'
-  #       fill_in "user[password]", with: "testtest"
-  #       fill_in "user[password_confirmation]", with: "testtest"
-  #       click_on "送信"
-  #       expect(page).to have_content 'テスト'
-  #     end
-  #   end
-  #   context 'ログインせずに飛ぼうとした時' do
-  #     it 'ログイン画面に遷移する' do
-  #       visit tasks_path
-  #       expect(page).to have_content 'Log in'
-  #   end
-  #  end
-  # end
+  describe '登録機能' do
+    context 'ユーザを登録した場合' do
+      it '新規登録ができる' do
+        visit new_user_path
+        fill_in "user[name]", with: 'テスト'
+        fill_in "user[email]", with: 'test100@test.com'
+        fill_in "user[password]", with: "testtest"
+        fill_in "user[password_confirmation]", with: "testtest"
+        click_on "送信"
+        expect(page).to have_content 'テスト'
+      end
+    end
+    context 'ログインせずに飛ぼうとした時' do
+      it 'ログイン画面に遷移する' do
+        visit tasks_path
+        expect(page).to have_content 'Log in'
+    end
+   end
+  end
   
-  # describe 'セッションログイン機能' do
-  #   it 'ログインする' do
-  #       visit new_session_path
-  #       fill_in "session[email]", with: 'test@desu.com'
-  #       fill_in "session[password]", with: 'testtest'
-  #       click_button "Log in"
-  #       expect(page).to have_content 'Log in'
-  #   end
-  # end
+  describe 'セッションログイン機能' do
+    it 'ログインする' do
+        visit new_session_path
+        fill_in "session[email]", with: 'test@desu.com'
+        fill_in "session[password]", with: 'testtest'
+        click_button "Log in"
+        expect(page).to have_content 'Log in'
+    end
+  end
   
-  # context 'ログインしたユーザーが' do
-  #   it 'マイページに飛べる' do
-  #     FactoryBot.create(:user)
-  #     visit new_session_path
-  #     fill_in "session[email]", with: 'test@code.com'
-  #     fill_in "session[password]", with: 'testcode'
-  #     click_on "Log in"
-  #     expect(page).to have_content 'ページ'
-  #   end
-  # end
-  # context '一般ユーザーが他人の詳細画面に飛ぶと' do
-  #   it 'タスク一覧画面に遷移する' do
-  #       user = FactoryBot.create(:user)
-  #       user2 = FactoryBot.create(:second_user)
-  #       visit new_session_path
-  #       fill_in "session[email]", with: 'test@code.com'
-  #       fill_in "session[password]", with: 'testcode'
-  #       click_on "Log in"
-  #       main_window = page.driver.browser.window_handles.first
-  #       new_window = page.driver.browser.window_handles.last
-  #       page.driver.browser.switch_to.window(new_window)
-  #       visit user_path(user2.id)
-  #       expect(page).to have_content 'タスク一覧'
-  #   end
-  # end
-  # context 'ログアウトすること' do
-  #   it 'ログイン画面が見えている' do
-  #       FactoryBot.create(:user)
-  #     visit new_session_path
-  #     fill_in "session[email]", with: 'test@code.com'
-  #     fill_in "session[password]", with: 'testcode'
-  #     click_on "Log in"
-  #     click_on "Logout"
-  #     expect(page).to have_content 'Log in'
-  #   end
-  # end
+  context 'ログインしたユーザーが' do
+    it 'マイページに飛べる' do
+      FactoryBot.create(:user)
+      visit new_session_path
+      fill_in "session[email]", with: 'test@code.com'
+      fill_in "session[password]", with: 'testcode'
+      click_on "Log in"
+      expect(page).to have_content 'ページ'
+    end
+  end
+  context '一般ユーザーが他人の詳細画面に飛ぶと' do
+    it 'タスク一覧画面に遷移する' do
+        user = FactoryBot.create(:user)
+        user2 = FactoryBot.create(:second_user)
+        visit new_session_path
+        fill_in "session[email]", with: 'test@code.com'
+        fill_in "session[password]", with: 'testcode'
+        click_on "Log in"
+        main_window = page.driver.browser.window_handles.first
+        new_window = page.driver.browser.window_handles.last
+        page.driver.browser.switch_to.window(new_window)
+        visit user_path(user2.id)
+        expect(page).to have_content 'タスク一覧'
+    end
+  end
+  context 'ログアウトすること' do
+    it 'ログイン画面が見えている' do
+        FactoryBot.create(:user)
+      visit new_session_path
+      fill_in "session[email]", with: 'test@code.com'
+      fill_in "session[password]", with: 'testcode'
+      click_on "Log in"
+      click_on "Logout"
+      expect(page).to have_content 'Log in'
+    end
+  end
 
   describe '管理画面テスト' do
    before do

@@ -6,7 +6,6 @@ class TasksController < ApplicationController
       @tasks = @tasks.reorder(deadline: 'DESC')
     end
     if params[:sort_priority] == 'true'
-      #binding.pry
       @tasks = @tasks.reorder(priority: 'ASC')
     end
   
@@ -31,7 +30,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params) 
+    @task = current_user.tasks.build(task_params) 
       if params[:back]
       render :new
     else
