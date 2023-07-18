@@ -2,6 +2,9 @@ class Task < ApplicationRecord
   belongs_to :user
   validates :title, presence: true
 
+  has_many :task_labels, dependent: :destroy
+  has_many :labels, through: :task_labels
+
   enum status: { 未着手: 0, 着手中: 1, 完了: 2 }
   enum priority: { 高: 0, 中: 1, 低: 2 }
   
